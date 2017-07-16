@@ -30,10 +30,14 @@ end
 
 
 function __get_last_version
-        set tags (git tag -l)
-        set -l lastIndex (math (count $tags))
-        set -l last_tag $tags[$lastIndex]
-        echo (string sub -s 2 $last_tag) # remove v
+        if __has_tag
+                set tags (git tag -l)
+                set -l lastIndex (math (count $tags))
+                set -l last_tag $tags[$lastIndex]
+                echo (string sub -s 2 $last_tag) # remove v
+        else
+                echo "0.0.0"
+        end
 end
 
 
@@ -62,10 +66,25 @@ function __has_commit
 end
 
 function __commit_messages
-        set msg (eval "git log --pretty=format:'%s' v$argv...HEAD")
+        
+        if __has_tag
+                set msg (eval "git log --pretty=format:'%s' v$argv...HEAD")
+        else
+                set msg (eval "git log --pretty=format:'%s' HEAD")
+        end
+        
         echo $msg
 end
 
+function __has_tag
+        set tags (git tag -l)
+        set tag_length (math (count $tags))
+        if math "$tag_length != 0"
+                return (__bool_true)
+        else
+                return (__bool_false)
+        end                
+end
 
 function __bool_false
         return 1
