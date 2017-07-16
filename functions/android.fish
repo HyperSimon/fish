@@ -26,7 +26,6 @@ function android
                                         echo 'e argument'
                         end
                 end
-                
         end
 end
 
