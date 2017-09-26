@@ -24,6 +24,19 @@ function android
                                         
                                 case '-e'
                                         echo 'e argument'
+
+                                case -a --assemble # install something
+                                        switch $argv[(math $i+1)]
+                                                case d debug  # install debug
+                                                        echo '正在打包 Android deubg 版'
+                                                        __assemble_android_debug # install 
+                                                case r release # install release
+                                                        echo '正在打包 Android release 版本'
+                                                        __assemble_android_release
+                                                case a alpha # install alpha
+                                                        echo '正在打包 Android alpha 版本'
+                                        end
+				     
                         end
                 end
         end
@@ -31,19 +44,53 @@ end
 
 
 
+function __in_android_folder
+         set -l parentPath (string split -r / (pwd))[-1]
+         echo $parentPath
+end
+
+function __determin_location
+         set -l parent (__in_android_folder)
+
+         echo $parent
+
+         switch $parent
+              case android
+                   echo "在Android文件夹中"
+                   echo true
+              case '*'
+                   echo "不在Android文件夹中，尝试进入..."
+                   cd android
+         end
+end
+
 
 function __install_android_debug
+         __determin_location;
         ./gradlew --stop;
         ./gradlew installDebug;
+        cd ..;
 end
 
 
 function __install_android_release
+        __determin_location
         ./gradlew --stop;
         ./gradlew installRelease;
+        cd ..        
 end
 
+function __assemble_android_debug
+         __determin_location;
+        ./gradlew assembleDebug;
+        cd ..;
+end
 
+function __assemble_android_release
+         __determin_location;
+        ./gradlew assembleRelease;
+        cd ..;
+end
 
 
 
