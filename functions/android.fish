@@ -39,7 +39,6 @@ function android
 				     
                         end
                 end
-                
         end
 end
 
