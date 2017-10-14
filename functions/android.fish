@@ -90,6 +90,8 @@ function __assemble_android_release
          __determin_location;
         ./gradlew assembleRelease;
         cd ..;
+        set -l name (date "+%Y-%m-%d %H点%M分%秒")
+        cp android/app/build/outputs/apk/app-release.apk ~/Desktop/apk/$name.apk;
 end
 
 
