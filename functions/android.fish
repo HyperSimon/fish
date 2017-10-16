@@ -90,8 +90,16 @@ function __assemble_android_release
          __determin_location;
         ./gradlew assembleRelease;
         cd ..;
-        set -l name (date "+%Y-%m-%d %H点%M分%秒")
-        cp android/app/build/outputs/apk/app-release.apk ~/Desktop/apk/$name.apk;
+        echo "release .apk 打包完成"
+        
+        set -l name (date "+%Y-%m-%d %H点%M分%S秒")
+        set -l companyName "正佳"
+        echo "开始移除 $companyName 文件夹下已有的 .apk 文件"
+        rm ~/Dropbox/$companyName/*
+        echo "移除完毕"
+        
+        echo "移动 release.apk 到 $companyName dropbox 文件夹下"
+        cp android/app/build/outputs/apk/app-release.apk ~/Dropbox/$companyName/"release $name.apk";
 end
 
 
