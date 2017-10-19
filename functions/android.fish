@@ -95,7 +95,7 @@ function __assemble_android_release
         set -l name (date "+%Y-%m-%d %H点%M分%S秒")
         set -l companyName "正佳"
         echo "开始移除 $companyName 文件夹下已有的 .apk 文件"
-        rm ~/Dropbox/$companyName/*
+        rm ~/Dropbox/$companyName/*.apk                  # 移除所有之前的apk
         echo "移除完毕"
         
         echo "移动 release.apk 到 $companyName dropbox 文件夹下"
