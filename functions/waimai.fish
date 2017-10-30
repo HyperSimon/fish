@@ -9,7 +9,7 @@ function waimai
         set -l prices (string split ' ' $prices)
         set -l members (count $prices)
         set -l tog_fee (math $tools + $delivery_fee)
-        set -l average_fee (math $tog_fee / $members)
+        set -l average_fee (math -s3 $tog_fee / $members)
 
         # 总花费 不带优惠
         set -g total_coast (echo $tog_fee) 
